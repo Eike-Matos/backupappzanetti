@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ImageBackground, StyleSheet } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet, FlatList } from 'react-native'
 
 import commonStyles from '../commonStyles.js'
 import todayImage from '../../assets/imgs/today.jpg'
@@ -10,6 +10,33 @@ import 'moment/locale/pt-br'
 import Ordens from '../components/Ordens'
 
 export default class OrdensServico extends Component {
+
+    state = {
+        ordens: [{
+            id: Math.random(),
+            desc: 'Atendimento OS 123',
+            estimateAt: new Date(),
+            doneAt: new Date()
+        },{
+            id: Math.random(),
+            desc: 'Atendimento OS 122',
+            estimateAt: new Date(),
+            doneAt: null        
+        }]
+
+    }
+
+    toggleOrdem = ordemId => {
+        const ordens = [...this.state.ordens]
+        ordens.forEach(ordem => {
+            if(ordem.id === ordemId) {
+                ordem.doneAt = ordem.doneAt ? null : new Date()
+            }
+        })
+        
+        this.setState({ordens})
+    }
+
     render() {
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
         return (
@@ -22,10 +49,9 @@ export default class OrdensServico extends Component {
                     </View>
                 </ImageBackground>
                 <View style={styles.ordensServico}>
-                    <Text desc="Atender OS1234" estimateAt={new Date()}
-                        doneAt={new Date()} />
-                    <Text desc="Atender OS1233" estimateAt={new Date()}
-                        doneAt={null}/>
+                   <FlatList data={this.state.ordens}
+                            keyExtractor={item => `${item.id}`}
+                            renderItem={({item}) => <Ordens {...item} toggleOrdem = {this.toggleOrdem} />}   />
                 </View>
             </View>
         )
@@ -41,7 +67,9 @@ const styles = StyleSheet.create({
         flexGrow: 3
     },
     ordensServico: {
-        flexGrow: 7
+        flexGrow: 7,
+        color: "#AAA",
+        fontFamily: commonStyles.fontFamily
 
     },
     titleBar: {
