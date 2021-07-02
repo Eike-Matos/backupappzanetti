@@ -1,10 +1,13 @@
 export default {
     fontFamily: 'Lato',
     colors: {
-        today: '#B13B44',
+        default: '#1631be',
+        today: '#b13b44',
+        tomorrow: '#c9742e',
+        week: '#15721e',
+        month: '#1631be',
         secondary: '#FFF',
-        mainText: '#000000',
-        subText: '#000000',
-
+        mainText: '#222',
+        subText: '#555',
     }
 }
